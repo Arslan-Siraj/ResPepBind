@@ -1,0 +1,14 @@
+{
+  "input": "/home/ubuntu/peptide-protein-binding/Published_work/training.fasta",
+  "seed": 2026,
+  "folds": 10,
+  "thresholds": [
+    0.6,
+    0.7,
+    0.8,
+    0.9
+  ],
+  "examples": 17244,
+  "exclude_unclustered": true,
+  "double_cold_protocol": "independent peptide/protein cluster assignments, mixed-boundary pairs excluded per fold"
+}

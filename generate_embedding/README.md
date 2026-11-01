@@ -1,4 +1,4 @@
-# Extract Peptide–Protein Embeddings
+# Extract Peptide-Protein Embeddings
 
 This guide provides the commands to extract embeddings from the training FASTA file and five independent evaluation FASTA files using `pepri_hgt_training.py`.
 
