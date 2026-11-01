@@ -1,0 +1,31 @@
+{
+  "search_mode": "rcsb_release_datetime",
+  "start_datetime": "",
+  "cutoff_datetime": "2022-09-30T23:59:59Z",
+  "outdir": "pdb_pairs_until_2022_09_30",
+  "pdb_id_file": "",
+  "include_pdb_id_file": "",
+  "exclude_pdb_id_file": "/home/ubuntu/peptide-protein-binding/LEADS_PEP_PDB_id.csv",
+  "excluded_pdb_ids": 53,
+  "removed_candidate_entries_by_exclusion": 52,
+  "peptide_length_range": [
+    2,
+    50
+  ],
+  "protein_length_range": [
+    51,
+    5000
+  ],
+  "contact_threshold_Angstrom": 5.0,
+  "max_unknown_ratio": 0.2,
+  "candidate_pdb_entries_after_filtering": 41203,
+  "raw_positive_pairs_before_sequence_deduplication": 27485,
+  "keep_sequence_duplicates": false,
+  "positive_pairs": 15596,
+  "negative_pairs": 15596,
+  "contacts": 84051,
+  "errors": 62,
+  "negative_ratio": 1.0,
+  "seed": 42,
+  "merged_positive_negative_file_written": false
+}

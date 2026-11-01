@@ -1,0 +1,63 @@
+{
+  "n_total": 3664,
+  "n_positive": 1832,
+  "n_negative": 1832,
+  "label_counts": {
+    "0": 1832,
+    "1": 1832
+  },
+  "class_balance_positive_fraction": 0.5,
+  "n_unique_peptides": 1240,
+  "n_unique_proteins": 1525,
+  "missing_values": {
+    "pair_id": 0,
+    "pdb_id": 1832,
+    "peptide_chain": 1832,
+    "protein_chain": 1833,
+    "peptide_sequence": 0,
+    "protein_sequence": 0,
+    "peptide_length": 0,
+    "protein_length": 0,
+    "label": 0,
+    "min_contact_distance_A": 1832,
+    "n_contacts": 0
+  },
+  "empty_peptide_sequences": 0,
+  "empty_protein_sequences": 0,
+  "duplicated_pair_rows": 0,
+  "unique_peptide_protein_pairs": 3664,
+  "positive_negative_pair_overlap": 0,
+  "peptide_length_summary": {
+    "min": 2,
+    "max": 50,
+    "mean": 25.80594978165939,
+    "median": 24.0
+  },
+  "protein_length_summary": {
+    "min": 51,
+    "max": 2428,
+    "mean": 350.4413209606987,
+    "median": 270.0
+  },
+  "peptide_length_mismatches": 0,
+  "protein_length_mismatches": 0,
+  "unusual_peptide_character_rows": 0,
+  "unusual_protein_character_rows": 0,
+  "checks_passed": true,
+  "input_csv": "/home/ubuntu/storage/peptide-protein-binding/For_publication/Data/generate_new_independent/pdb_pairs_new_ind_cdhit80/dataset_balanced.csv",
+  "output_fasta": "/home/ubuntu/storage/peptide-protein-binding/For_publication/Data/generate_new_independent/pdb_pairs_new_ind_cdhit80/new_ind_cdhit80_balanced.fasta",
+  "training_overlap": {
+    "train_positives_csv": "/home/ubuntu/storage/peptide-protein-binding/For_publication/Data/generate_new_independent/pdb_pairs_until_2022_09_30/positives.csv",
+    "training_positive_pairs": 15596,
+    "new_positive_pairs": 1832,
+    "new_all_pairs": 3664,
+    "exact_positive_pair_overlap_with_training": 0,
+    "exact_any_pair_overlap_with_training_positives": 0,
+    "example_positive_overlaps": []
+  },
+  "outputs": {
+    "combined_fasta": "/home/ubuntu/storage/peptide-protein-binding/For_publication/Data/generate_new_independent/pdb_pairs_new_ind_cdhit80/new_ind_cdhit80_balanced.fasta",
+    "positives_only_fasta": "/home/ubuntu/storage/peptide-protein-binding/For_publication/Data/generate_new_independent/pdb_pairs_new_ind_cdhit80/positives_only.fasta",
+    "negatives_only_fasta": "/home/ubuntu/storage/peptide-protein-binding/For_publication/Data/generate_new_independent/pdb_pairs_new_ind_cdhit80/negatives_only.fasta"
+  }
+}

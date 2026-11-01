@@ -1,0 +1,13 @@
+pdb_id,error
+9a8i,parse_or_contact_failed:KeyError:'_atom_site.id'
+9a8u,parse_or_contact_failed:KeyError:'_atom_site.id'
+9a8w,parse_or_contact_failed:KeyError:'_atom_site.id'
+9a8t,parse_or_contact_failed:KeyError:'_atom_site.id'
+9a8m,parse_or_contact_failed:KeyError:'_atom_site.id'
+9a8k,parse_or_contact_failed:KeyError:'_atom_site.id'
+9a8n,parse_or_contact_failed:KeyError:'_atom_site.id'
+9a8l,parse_or_contact_failed:KeyError:'_atom_site.id'
+9e5c,download_failed
+9fqr,download_failed
+9mjn,download_failed
+9y6s,download_failed
