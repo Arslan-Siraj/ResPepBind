@@ -19,7 +19,7 @@ if [[ ! -f "$CONDA_SH" ]]; then
   exit 1
 fi
 source "$CONDA_SH"
-conda activate pepphys_gnn
+conda activate ResPepBind_training
 
 TRAIN_SCRIPT="$SCRIPT_DIR/pep_resmlp_train.py"
 REPORT_SCRIPT="$SCRIPT_DIR/pep_resmlp_report.py"
