@@ -1,0 +1,210 @@
+[
+  {
+    "run": "pepresmlp_pqabsdiff_HD128_MLP3_B32_lr1e-3_seed2026",
+    "configuration": {
+      "activation": "gelu",
+      "batch_size": "32",
+      "block_dropout": "0.25",
+      "block_dropouts": "0.25,0.25,0.25",
+      "dropout_global_fallback": "0.25",
+      "ensemble_kfold": "True",
+      "ensemble_threshold_strategies": "oof_youden",
+      "ensemble_threshold_strategy": "median_fold_threshold",
+      "epochs": "50",
+      "gap_patience": "5",
+      "gap_val_loss_tolerance": "0.03",
+      "grad_clip": "1.0",
+      "head_dropout": "0.15",
+      "head_ratio": "0.5",
+      "hidden_dim": "128",
+      "input_dim": "1024",
+      "input_dropout": "0.2",
+      "input_representation": "p,q,absdiff",
+      "interaction_dim": "3072",
+      "interaction_features": "p,q,absdiff",
+      "lr": "0.001",
+      "max_generalization_gap": "0.2",
+      "max_peptide_len": "50",
+      "max_protein_len": "1024",
+      "min_epochs_before_gap_stop": "15",
+      "mlp_blocks": "3",
+      "mlp_expand_ratio": "2.0",
+      "model": "ResidualInteractionMLP",
+      "monitor": "f1",
+      "norm_type": "layernorm",
+      "num_folds": "10",
+      "patience": "5",
+      "pooling": "masked_mean",
+      "protocol": "kfold",
+      "residual_enabled": "True",
+      "residual_scale": "1.0",
+      "save_oof_predictions": "True",
+      "seed": "2026",
+      "threshold_objective": "f1",
+      "total_parameters": "600449",
+      "trainable_parameters": "600449",
+      "tune_threshold": "True",
+      "variant": "residual_interaction_mlp",
+      "weight_decay": "0.0005"
+    },
+    "validation": {
+      "acc": {
+        "mean": 0.7925058004640371,
+        "std": 0.018333826934586277,
+        "n": 10
+      },
+      "f1": {
+        "mean": 0.8138090580191832,
+        "std": 0.013881215389873752,
+        "n": 10
+      },
+      "auc": {
+        "mean": 0.8662483241324374,
+        "std": 0.01252231820423703,
+        "n": 10
+      },
+      "aupr": {
+        "mean": 0.8386951774407497,
+        "std": 0.012460963755597014,
+        "n": 10
+      },
+      "val_loss": null
+    },
+    "independent_ensemble": {
+      "Test251": {
+        "acc": 0.9036144578313253,
+        "f1": 0.9073359073359073,
+        "auc": 0.9745487976000388,
+        "aupr": 0.9725449685036741,
+        "threshold": 0.4309651851654053,
+        "loss": 0.23321423587547638
+      },
+      "Test1440": {
+        "acc": 0.9243055555555556,
+        "f1": 0.9278145695364238,
+        "auc": 0.9751374421296297,
+        "aupr": 0.9685360609988178,
+        "threshold": 0.4309651851654053,
+        "loss": 0.20570512854593279
+      },
+      "Test167": {
+        "acc": 0.903921568627451,
+        "f1": 0.9077212806026366,
+        "auc": 0.9752402921953095,
+        "aupr": 0.9733169788412599,
+        "threshold": 0.4309651851654053,
+        "loss": 0.2305202796647776
+      },
+      "Leadspep": {
+        "acc": 0.8173076923076923,
+        "f1": 0.8288288288288288,
+        "auc": 0.9282544378698225,
+        "aupr": 0.9339791280989409,
+        "threshold": 0.4309651851654053,
+        "loss": 0.3807715392887662
+      }
+    },
+    "oof_metrics": {
+      "n": 17244,
+      "roc_auc": 0.8644768597817529,
+      "average_precision": 0.8355142401206723
+    },
+    "checkpoint_history": [
+      {
+        "fold": "fold1",
+        "best_epoch": "26",
+        "train_aupr": "0.9587764652586478",
+        "val_aupr": "0.8363084159398192",
+        "train_loss": "0.23701070955733664",
+        "val_loss": "0.5585056995904004",
+        "loss_gap": "0.3214949900330638"
+      },
+      {
+        "fold": "fold10",
+        "best_epoch": "18",
+        "train_aupr": "0.9392848366421404",
+        "val_aupr": "0.835327088117407",
+        "train_loss": "0.2844428876933363",
+        "val_loss": "0.5307838712577466",
+        "loss_gap": "0.2463409835644103"
+      },
+      {
+        "fold": "fold2",
+        "best_epoch": "21",
+        "train_aupr": "0.9443686722211617",
+        "val_aupr": "0.8532799742114692",
+        "train_loss": "0.26760215318387315",
+        "val_loss": "0.48108531727834986",
+        "loss_gap": "0.2134831640944767"
+      },
+      {
+        "fold": "fold3",
+        "best_epoch": "20",
+        "train_aupr": "0.9450224500747609",
+        "val_aupr": "0.8474394758446206",
+        "train_loss": "0.2672420385418479",
+        "val_loss": "0.5451337452288028",
+        "loss_gap": "0.27789170668695484"
+      },
+      {
+        "fold": "fold4",
+        "best_epoch": "20",
+        "train_aupr": "0.9394635293684928",
+        "val_aupr": "0.8291227495274391",
+        "train_loss": "0.2812823418028576",
+        "val_loss": "0.6277520670383064",
+        "loss_gap": "0.34646972523544883"
+      },
+      {
+        "fold": "fold5",
+        "best_epoch": "20",
+        "train_aupr": "0.9443238170332078",
+        "val_aupr": "0.8338310749996715",
+        "train_loss": "0.271684822148269",
+        "val_loss": "0.5590740417440733",
+        "loss_gap": "0.28738921959580427"
+      },
+      {
+        "fold": "fold6",
+        "best_epoch": "15",
+        "train_aupr": "0.8930226916075011",
+        "val_aupr": "0.8186750776494266",
+        "train_loss": "0.3767561740481976",
+        "val_loss": "0.5124807854493459",
+        "loss_gap": "0.13572461140114833"
+      },
+      {
+        "fold": "fold7",
+        "best_epoch": "20",
+        "train_aupr": "0.9361104552377092",
+        "val_aupr": "0.84018236818159",
+        "train_loss": "0.28456712538741297",
+        "val_loss": "0.5813271177035791",
+        "loss_gap": "0.2967599923161662"
+      },
+      {
+        "fold": "fold8",
+        "best_epoch": "23",
+        "train_aupr": "0.957751585853495",
+        "val_aupr": "0.8614667232869374",
+        "train_loss": "0.24354176315450177",
+        "val_loss": "0.5070460157261955",
+        "loss_gap": "0.2635042525716937"
+      },
+      {
+        "fold": "fold9",
+        "best_epoch": "15",
+        "train_aupr": "0.906761973652104",
+        "val_aupr": "0.8313188266491172",
+        "train_loss": "0.35052111021329446",
+        "val_loss": "0.515811482237445",
+        "loss_gap": "0.16529037202415053"
+      }
+    ],
+    "checkpoint_loss_gap": {
+      "mean": 0.25543490175233174,
+      "std": 0.06687365857107841,
+      "n": 10
+    }
+  }
+]

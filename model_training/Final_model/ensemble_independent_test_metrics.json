@@ -1,0 +1,54 @@
+[
+  {
+    "acc": 0.9036144578313253,
+    "f1": 0.9073359073359073,
+    "auc": 0.9745487976000388,
+    "aupr": 0.9725449685036741,
+    "threshold": 0.4309651851654053,
+    "split": "Test251",
+    "fold": "ensemble_mean_probability",
+    "loss": 0.23321423587547638,
+    "n": 498,
+    "ensemble_threshold_strategy": "oof_youden",
+    "n_folds": 10
+  },
+  {
+    "acc": 0.9243055555555556,
+    "f1": 0.9278145695364238,
+    "auc": 0.9751374421296297,
+    "aupr": 0.9685360609988178,
+    "threshold": 0.4309651851654053,
+    "split": "Test1440",
+    "fold": "ensemble_mean_probability",
+    "loss": 0.20570512854593279,
+    "n": 2880,
+    "ensemble_threshold_strategy": "oof_youden",
+    "n_folds": 10
+  },
+  {
+    "acc": 0.903921568627451,
+    "f1": 0.9077212806026366,
+    "auc": 0.9752402921953095,
+    "aupr": 0.9733169788412599,
+    "threshold": 0.4309651851654053,
+    "split": "Test167",
+    "fold": "ensemble_mean_probability",
+    "loss": 0.2305202796647776,
+    "n": 510,
+    "ensemble_threshold_strategy": "oof_youden",
+    "n_folds": 10
+  },
+  {
+    "acc": 0.8173076923076923,
+    "f1": 0.8288288288288288,
+    "auc": 0.9282544378698225,
+    "aupr": 0.9339791280989409,
+    "threshold": 0.4309651851654053,
+    "split": "Leadspep",
+    "fold": "ensemble_mean_probability",
+    "loss": 0.3807715392887662,
+    "n": 104,
+    "ensemble_threshold_strategy": "oof_youden",
+    "n_folds": 10
+  }
+]
