@@ -1,0 +1,4 @@
+final_pepresmlp_runs/pepresmlp_*
+__pycache__
+*.bak
+*.bak2
