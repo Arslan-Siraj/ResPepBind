@@ -1,67 +1,63 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# ResPepBind: four seeds x 10 folds, OOF threshold, independent evaluation.
-# IMPORTANT: pep_resmlp_train.py MUST have a split-aware embedding loader.
-# The original recursive EmbeddingStore can mix same-named .pt files across splits.
+# ResPepBind: 4 independent seeds x 10-fold CV, 5 independent datasets.
+# Uses pep_resmlp_train_split_aware.py and the pepphys_gnn Conda environment.
+# Separate output root prevents overwriting existing final_pepresmlp_runs.
+# Default physical GPU is 1; override using CUDA_VISIBLE_DEVICES=0 if desired.
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-# This script is intended to reside in ResPepBind/scripts_finalised_model/.
 PROJECT_DIR="$(cd -- "$SCRIPT_DIR/.." && pwd)"
-TRAIN_SCRIPT="$SCRIPT_DIR/pep_resmlp_train_split_aware.py"
+TRAIN_SCRIPT="$SCRIPT_DIR/pep_resmlp_train.py"
 REPORT_SCRIPT="$SCRIPT_DIR/pep_resmlp_report.py"
 TRAIN_FASTA="$PROJECT_DIR/data/training/Training.fasta"
 EMBEDDING_DIR="$PROJECT_DIR/generate_embedding/embeddings"
 INDEPENDENT_DIR="$PROJECT_DIR/data/independent"
-BASE_OUTPUT_DIR="$SCRIPT_DIR/final_pepresmlp_runs"
+BASE_OUTPUT_DIR="$SCRIPT_DIR/final_pepresmlp_runs_like_before"
 
-SEEDS=(42 123)
+SEEDS=(42 123 2025 2026)
 TEST_NAMES=(Test251 Test1440 Test167 Leadspep Test3664)
 TEST_FASTAS=()
 
-# Avoid silently reproducing the known original filename-collision bug.
-if [[ "${SPLIT_AWARE_LOADER_CONFIRMED:-0}" != "1" ]]; then
-  cat >&2 <<'MSG'
-ERROR: Split-aware embedding loader has not been confirmed.
-The original pep_resmlp_train.py recursively indexes embeddings by basename,
-which can mix Training and independent .pt files with identical names.
-Patch and verify the loader first. Then run with:
-  SPLIT_AWARE_LOADER_CONFIRMED=1 ./run_final_training.sh
-This flag is an acknowledgement, NOT an automatic verification of the Python fix.
-MSG
-  exit 2
-fi
-
-for f in "$TRAIN_SCRIPT" "$REPORT_SCRIPT" "$TRAIN_FASTA"; do
-  [[ -f "$f" ]] || { echo "ERROR: Missing file: $f" >&2; exit 1; }
+for file in "$TRAIN_SCRIPT" "$REPORT_SCRIPT" "$TRAIN_FASTA"; do
+  [[ -f "$file" ]] || { echo "ERROR: Missing file: $file" >&2; exit 1; }
 done
 for split in Training "${TEST_NAMES[@]}"; do
-  [[ -d "$EMBEDDING_DIR/$split" ]] || { echo "ERROR: Missing embedding split: $EMBEDDING_DIR/$split" >&2; exit 1; }
+  [[ -d "$EMBEDDING_DIR/$split" ]] || {
+    echo "ERROR: Missing embedding directory: $EMBEDDING_DIR/$split" >&2
+    exit 1
+  }
 done
 for split in "${TEST_NAMES[@]}"; do
-  f="$INDEPENDENT_DIR/$split.fasta"
-  [[ -f "$f" ]] || { echo "ERROR: Missing independent FASTA: $f" >&2; exit 1; }
-  TEST_FASTAS+=("$f")
+  fasta="$INDEPENDENT_DIR/$split.fasta"
+  [[ -f "$fasta" ]] || { echo "ERROR: Missing FASTA: $fasta" >&2; exit 1; }
+  TEST_FASTAS+=("$fasta")
 done
 
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 CONDA_SH="$HOME/anaconda3/etc/profile.d/conda.sh"
-[[ -f "$CONDA_SH" ]] || { echo "ERROR: Missing Conda initialization: $CONDA_SH" >&2; exit 1; }
+[[ -f "$CONDA_SH" ]] || { echo "ERROR: Conda initialization missing: $CONDA_SH" >&2; exit 1; }
 # shellcheck disable=SC1090
 source "$CONDA_SH"
 conda activate pepphys_gnn
 
+python -m py_compile "$TRAIN_SCRIPT" "$REPORT_SCRIPT"
 python - <<'PY'
+import os
 import torch
-print('PyTorch:', torch.__version__)
-print('CUDA available:', torch.cuda.is_available())
+print('PyTorch:', torch.__version__, flush=True)
+print('CUDA available:', torch.cuda.is_available(), flush=True)
 if not torch.cuda.is_available():
-    raise SystemExit('ERROR: CUDA is unavailable in ResPepBind_training.')
-print('Visible GPU:', torch.cuda.get_device_name(0))
+    raise SystemExit('ERROR: CUDA is unavailable in pepphys_gnn.')
+print('CUDA_VISIBLE_DEVICES:', os.environ.get('CUDA_VISIBLE_DEVICES'), flush=True)
+print('Visible device (cuda:0):', torch.cuda.get_device_name(0), flush=True)
 PY
 
 mkdir -p "$BASE_OUTPUT_DIR"
-cp "$0" "$BASE_OUTPUT_DIR/run_final_training.sh"
+cp -- "$0" "$BASE_OUTPUT_DIR/$(basename "$0")"
+echo "Output root: $BASE_OUTPUT_DIR"
+echo "Seeds: ${SEEDS[*]}"
+echo "Physical GPU selection: $CUDA_VISIBLE_DEVICES"
 
 for SEED in "${SEEDS[@]}"; do
   OUT="$BASE_OUTPUT_DIR/pepresmlp_pqabsdiff_HD128_MLP3_B32_lr1e-3_seed${SEED}"
@@ -69,13 +65,15 @@ for SEED in "${SEEDS[@]}"; do
     echo "Skipping completed seed $SEED: $OUT"
     continue
   fi
-  mkdir -p "$OUT"
-  cp "$TRAIN_SCRIPT" "$OUT/pep_resmlp_train.py"
-  cp "$REPORT_SCRIPT" "$OUT/pep_resmlp_report.py"
-  cp "$0" "$OUT/run_final_training.sh"
-  printf 'seed=%s\nCUDA_VISIBLE_DEVICES=%s\nembedding_root=%s\n' "$SEED" "$CUDA_VISIBLE_DEVICES" "$EMBEDDING_DIR" > "$OUT/run_config.txt"
 
-  echo "=== Training seed $SEED / 10 folds; output: $OUT ==="
+  mkdir -p "$OUT"
+  cp -- "$TRAIN_SCRIPT" "$OUT/pep_resmlp_train_split_aware.py"
+  cp -- "$REPORT_SCRIPT" "$OUT/pep_resmlp_report.py"
+  cp -- "$0" "$OUT/$(basename "$0")"
+  printf 'seed=%s\nCUDA_VISIBLE_DEVICES=%s\nconda_environment=%s\nembedding_root=%s\n' \
+    "$SEED" "$CUDA_VISIBLE_DEVICES" "pepphys_gnn" "$EMBEDDING_DIR" > "$OUT/run_config.txt"
+
+  echo "=== Training seed $SEED: 10 folds; GPU $CUDA_VISIBLE_DEVICES; output: $OUT ==="
   python "$TRAIN_SCRIPT" \
     --train_fasta "$TRAIN_FASTA" \
     --embedding_dir "$EMBEDDING_DIR" \
@@ -105,13 +103,14 @@ for SEED in "${SEEDS[@]}"; do
 
   python "$REPORT_SCRIPT" --run_dir "$OUT" --out_dir "$OUT/publication_summary" \
     2>&1 | tee "$OUT/report.log"
+
   touch "$OUT/RUN_COMPLETED"
+  echo "=== Completed seed $SEED ==="
 done
 
+# Safe here because this report reads only the dedicated 'like_before' output root.
 python "$REPORT_SCRIPT" --parent_dir "$BASE_OUTPUT_DIR" \
   --out_dir "$BASE_OUTPUT_DIR/combined_publication_summary" \
   2>&1 | tee "$BASE_OUTPUT_DIR/combined_report.log"
+
 echo "Finished: $BASE_OUTPUT_DIR"
-
-
-# env: pepphys_gnn

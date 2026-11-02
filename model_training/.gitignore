@@ -1,4 +1,5 @@
 final_pepresmlp_runs/pepresmlp_*
+final_pepresmlp_runs_like_before/pepresmlp_*
 __pycache__
 *.bak
 *.bak2

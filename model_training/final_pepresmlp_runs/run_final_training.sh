@@ -15,7 +15,7 @@ EMBEDDING_DIR="$PROJECT_DIR/generate_embedding/embeddings"
 INDEPENDENT_DIR="$PROJECT_DIR/data/independent"
 BASE_OUTPUT_DIR="$SCRIPT_DIR/final_pepresmlp_runs"
 
-SEEDS=(2025 2026)
+SEEDS=(42 123 2025 2026)
 TEST_NAMES=(Test251 Test1440 Test167 Leadspep Test3664)
 TEST_FASTAS=()
 
