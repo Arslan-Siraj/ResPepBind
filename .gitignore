@@ -1,0 +1,12 @@
+# ResPepBind prediction package outputs (additive patterns)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+dist/
+build/
+results/
+models/seed2026/
+*.pt
+embedding_cache/

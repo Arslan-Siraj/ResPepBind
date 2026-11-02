@@ -52,7 +52,7 @@ def main():
         out = root/'predictions.csv'
         cmd = [sys.executable, '-m', 'respepbind.predict', '--run-dir', str(runs),
                '--csv', str(HERE/'examples/pairs.csv'), '--embedding-dir', str(embs),
-               '--existing-only', '--output-csv', str(out), '--threads', '2']
+               '--existing-only', '--cache-dir', str(root/'inference_cache'), '--output-csv', str(out), '--threads', '2']
         env = dict(os.environ, CUDA_VISIBLE_DEVICES='')
         result = subprocess.run(cmd, capture_output=True, text=True, env=env)
         if result.returncode:
@@ -70,7 +70,7 @@ def main():
         direct = [sys.executable,'-m', 'respepbind.predict', '--run-dir',str(runs),
                   '--peptide',from_csv[0].peptide,'--protein',from_csv[0].protein,
                   '--embedding-dir',str(embs),'--existing-only',
-                  '--output-csv',str(single_out),'--threads','2']
+                  '--cache-dir',str(root/'inference_cache'), '--output-csv',str(single_out),'--threads','2']
         direct_result=subprocess.run(direct,capture_output=True,text=True,env=env)
         if direct_result.returncode: raise RuntimeError(direct_result.stdout+'\n'+direct_result.stderr)
         with single_out.open(newline='') as fh:
@@ -86,7 +86,7 @@ def main():
         labeled_out=root/'labeled.csv'
         labeled_cmd=[sys.executable,'-m', 'respepbind.predict', '--run-dir',str(runs),
                      '--csv',str(two_labeled),'--embedding-dir',str(embs),
-                     '--existing-only','--output-csv',str(labeled_out),'--threads','2']
+                     '--existing-only','--cache-dir',str(root/'inference_cache'), '--output-csv',str(labeled_out),'--threads','2']
         labeled_result=subprocess.run(labeled_cmd,capture_output=True,text=True,env=env)
         if labeled_result.returncode: raise RuntimeError(labeled_result.stdout+'\n'+labeled_result.stderr)
         summary=json.loads(labeled_out.with_suffix('.metrics.json').read_text())
