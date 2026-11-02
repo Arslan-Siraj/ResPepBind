@@ -87,3 +87,5 @@ done
 printf '\nAll selected independent embeddings verified.\n'
 printf 'Saved under: %s/{Test251,Test1440,Test167,Leadspep,Test3664}/\n' "$EMBEDDING_DIR"
 printf 'IMPORTANT: In training, load only the matching dataset folder, not the common parent.\n'
+
+# env: pepphys_gnn

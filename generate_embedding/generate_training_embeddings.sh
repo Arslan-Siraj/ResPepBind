@@ -118,3 +118,6 @@ PY
 
 printf '\nTraining embeddings are complete.\n'
 printf 'IMPORTANT: The training loader must use only %s, not its parent.\n' "$OUTPUT_DIR"
+
+
+# env: pepphys_gnn
